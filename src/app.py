@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, People, Planetas, Usuario
+from models import db, User, Personajes, Planetas, Usuario
 #from models import Person
 
 app = Flask(__name__)
@@ -37,24 +37,24 @@ def sitemap():
     return generate_sitemap(app)
 
 
-@app.route('/People', methods=['GET'])
-def Get_People():
-    all_People = People.query.all()
-    print(all_People)
-    results = list(map(lambda Gender : Gender.serialize() ,all_People))
+@app.route('/Personajes', methods=['GET'])
+def Get_Personajes():
+    all_Personajes= Personajes.query.all()
+    print(all_Personajes)
+    results = list(map(lambda Gender : Gender.serialize(), all_Personajes))
     return jsonify(results), 200
 
 
-@app.route('/People/<int:People_id>', methods=['GET'])
-def Get_People_id(People_id):
-    print(People_id)
-    identification= People.query.filter_by(Id_Personajes = People_id).first()
+@app.route('/Personajes/<int:Personajes_id>', methods=['GET'])
+def Get_Personajes_id(Personajes_id):
+    print(Personajes_id)
+    identification= Personajes.query.filter_by(Id_Personajes = Personajes_id).first()
     return jsonify(identification.serialize()), 200
 
-@app.route('/People', methods=['POST'])
-def POST_People():
+@app.route('/Personajes', methods=['POST'])
+def POST_Personajes():
     body = request.get_json()
-    box = People(Birthline = body['Birthline'], Gender = body['Gender'], Height = body['Height'], Skin_color = body['Skin_color'], Eye_color = body['Eye_color'])
+    box = Personajes(Birthline = body['Birthline'], Gender = body['Gender'], Height = body['Height'], Skin_color = body['Skin_color'], Eye_color = body['Eye_color'])
     db.session.add(box)
     db.session.commit()
     response_body = {

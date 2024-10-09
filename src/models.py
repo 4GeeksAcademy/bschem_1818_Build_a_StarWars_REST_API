@@ -18,7 +18,7 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     
-class People(db.Model):
+class Personajes(db.Model):
     Id_Personajes = db.Column(db.Integer, primary_key=True)
 
     Birthline = db.Column(db.Integer, nullable=False)
@@ -28,7 +28,7 @@ class People(db.Model):
     Eye_color = db.Column(db.String(250), nullable=False)
 
     def __repr__(self):
-        return '<People %r>' % self.Id_Personajes
+        return '<Personajes %r>' % self.Id_Personajes
 
     def serialize(self):
         return {
@@ -69,8 +69,8 @@ class Usuario(db.Model):
     Apellido = db.Column(db.String(250), nullable=False)
     Correo = db.Column(db.String(250), nullable=False)
     Password = db.Column(db.String(250), nullable=False)
-    planetas_favoritos = db.relationship('Datos_Favoritos', backref='usuario_planeta', lazy=True)
-    personajes_favoritos = db.relationship('Datos_Favoritos', backref='usuario_personaje', lazy=True)
+    # planetas_favoritos = db.relationship('Datos_Favoritos', backref='usuario_planeta', lazy=True)
+    # personajes_favoritos = db.relationship('Datos_Favoritos', backref='usuario_personaje', lazy=True)
 
 
     def __repr__(self):
@@ -88,8 +88,12 @@ def serialize(self):
 class Datos_Favoritos(db.Model):
     id_Favoritos = db.Column(db.Integer, primary_key=True)
     user_Id = db.Column(db.Integer, db.ForeignKey('usuario.ID_Usuario'))
+    user= db.relationship('Usuario', backref='datos_favoritos')
     Planeta_ID = db.Column(db.Integer, db.ForeignKey('planetas.ID_Planeta'))
-    Personajes_Id = db.Column(db.Integer, db.ForeignKey('people.Id_Personajes'))
+    Personajes_Id = db.Column(db.Integer, db.ForeignKey('personajes.Id_Personajes'))
+    planeta = db.relationship('Planetas', backref='datos_favoritos')
+    personajes = db.relationship('Personajes', backref='datos_favoritos')
+
 
     def __repr__(self):
         return '<Datos_Favoritos %r>' % self.id_Favoritos
