@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, People, Planetas, Usuario
 #from models import Person
 
 app = Flask(__name__)
@@ -36,16 +36,59 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-@app.route('/user', methods=['GET'])
-def handle_hello():
 
+@app.route('/People', methods=['GET'])
+def Get_People():
+    all_People = People.query.all()
+    print(all_People)
+    results = list(map(lambda Gender : Gender.serialize() ,all_People))
+    return jsonify(results), 200
+
+
+@app.route('/People/<int:People_id>', methods=['GET'])
+def Get_People_id(People_id):
+    print(People_id)
+    identification= People.query.filter_by(Id_Personajes = People_id).first()
+    return jsonify(identification.serialize()), 200
+
+@app.route('/People', methods=['POST'])
+def POST_People():
+    body = request.get_json()
+    box = People(Birthline = body['Birthline'], Gender = body['Gender'], Height = body['Height'], Skin_color = body['Skin_color'], Eye_color = body['Eye_color'])
+    db.session.add(box)
+    db.session.commit()
     response_body = {
-        "msg": "Hello, this is your GET /user response "
+        "msg": "A person has been added"
     }
-
     return jsonify(response_body), 200
+
+@app.route('/Planetas', methods=['GET'])
+def Get_Planetas():
+    all_Planetas = Planetas.query.all()
+    print(all_Planetas)
+    results = list(map(lambda Rotation_Period : Rotation_Period.serialize() ,all_Planetas))
+    return jsonify(results), 200
+
+@app.route('/Planetas/<int:Planetas_id>', methods=['GET'])
+def Get_Planetas_id(Planetas_id):
+    print(Planetas_id)
+    identification= Planetas.query.filter_by(ID_Planeta = Planetas_id).first()
+    return jsonify(identification.serialize()), 200
+
+@app.route('/Usuario', methods=['GET'])
+def Get_Usuario():
+    all_Usuario = Usuario.query.all()
+    print(all_Usuario)
+    results = list(map(lambda Nombre : Nombre.serialize() ,all_Usuario))
+    return jsonify(results), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))
     app.run(host='0.0.0.0', port=PORT, debug=False)
+
+
+
+
+
+ 
