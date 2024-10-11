@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User, Personajes, Planetas, Usuario
+from models import db, Personajes, Planetas, Usuario
 #from models import Person
 
 app = Flask(__name__)
@@ -37,7 +37,7 @@ def sitemap():
     return generate_sitemap(app)
 
 
-@app.route('/Personajes', methods=['GET'])
+@app.route('/personajes', methods=['GET'])
 def Get_Personajes():
     all_Personajes= Personajes.query.all()
     print(all_Personajes)
@@ -45,13 +45,13 @@ def Get_Personajes():
     return jsonify(results), 200
 
 
-@app.route('/Personajes/<int:Personajes_id>', methods=['GET'])
-def Get_Personajes_id(Personajes_id):
-    print(Personajes_id)
-    identification= Personajes.query.filter_by(Id_Personajes = Personajes_id).first()
+@app.route('/personajes/<int:personajes_id>', methods=['GET'])
+def Get_Personajes_id(personajes_id):
+    print(personajes_id)
+    identification= Personajes.query.filter_by(Id_Personajes = personajes_id).first()
     return jsonify(identification.serialize()), 200
 
-@app.route('/Personajes', methods=['POST'])
+@app.route('/personajes', methods=['POST'])
 def POST_Personajes():
     body = request.get_json()
     box = Personajes(Birthline = body['Birthline'], Gender = body['Gender'], Height = body['Height'], Skin_color = body['Skin_color'], Eye_color = body['Eye_color'])
@@ -62,25 +62,25 @@ def POST_Personajes():
     }
     return jsonify(response_body), 200
 
-@app.route('/Planetas', methods=['GET'])
+@app.route('/planetas', methods=['GET'])
 def Get_Planetas():
     all_Planetas = Planetas.query.all()
     print(all_Planetas)
     results = list(map(lambda Rotation_Period : Rotation_Period.serialize() ,all_Planetas))
     return jsonify(results), 200
 
-@app.route('/Planetas/<int:Planetas_id>', methods=['GET'])
-def Get_Planetas_id(Planetas_id):
-    print(Planetas_id)
-    identification= Planetas.query.filter_by(ID_Planeta = Planetas_id).first()
+@app.route('/planetas/<int:planetas_id>', methods=['GET'])
+def Get_Planetas_id(planetas_id):
+    print(planetas_id)
+    identification= Planetas.query.filter_by(ID_Planeta = planetas_id).first()
     return jsonify(identification.serialize()), 200
 
-@app.route('/Usuario', methods=['GET'])
-def Get_Usuario():
-    all_Usuario = Usuario.query.all()
-    print(all_Usuario)
-    results_Usuario = list(map(lambda Nombre : Nombre.serialize() ,all_Usuario))
-    return jsonify(results_Usuario), 200
+@app.route('/usuario', methods=['GET'])
+def Get_usuario():
+    all_usuario = Usuario.query.all()
+    print(all_usuario)
+    results_usuario = list(map(lambda Nombre : Nombre.serialize() ,all_usuario))
+    return jsonify(results_usuario), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
