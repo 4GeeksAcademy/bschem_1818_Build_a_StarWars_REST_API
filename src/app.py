@@ -79,8 +79,8 @@ def Get_Planetas_id(Planetas_id):
 def Get_Usuario():
     all_Usuario = Usuario.query.all()
     print(all_Usuario)
-    results = list(map(lambda Nombre : Nombre.serialize() ,all_Usuario))
-    return jsonify(results), 200
+    results_Usuario = list(map(lambda Nombre : Nombre.serialize() ,all_Usuario))
+    return jsonify(results_Usuario), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':

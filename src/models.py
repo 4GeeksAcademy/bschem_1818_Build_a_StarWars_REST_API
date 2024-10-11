@@ -84,7 +84,7 @@ def serialize(self):
         "Correo": self.Correo,
         # do not serialize the password, its a security breach
     }
-    
+   #codigo comentando 
 class Datos_Favoritos(db.Model):
     id_Favoritos = db.Column(db.Integer, primary_key=True)
     user_Id = db.Column(db.Integer, db.ForeignKey('usuario.ID_Usuario'))
