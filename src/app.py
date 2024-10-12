@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, Personajes, Planetas, Usuario
+from models import db, Personajes, Planetas, Usuario, Datos_Favoritos
 #from models import Person
 
 app = Flask(__name__)
@@ -81,12 +81,26 @@ def Get_usuario():
     return jsonify(results_usuario), 200
 
 @app.route('/favorite/planet', methods=['POST'])
-def Post_planet():
-    planeta= Planetas.
-    all_Planetas = Planetas.query.all()
-    print(all_Planetas)
-    results = list(map(lambda Rotation_Period : Rotation_Period.serialize() ,all_Planetas))
-    return jsonify(results), 200
+def add_favorite_planet():
+    body = request.get_json()
+    new_favorite = Datos_Favoritos(user_Id=body['user_Id'], Planeta_ID=body['Planeta_ID'])
+    db.session.add(new_favorite)
+    db.session.commit()
+    response_body = {
+        "msg": "A favorite planet has been added to the user"
+    }
+    return jsonify(response_body), 200
+
+@app.route('/favorite/personajes', methods=['POST'])
+def add_favorite_personajes():
+    body = request.get_json()
+    new_favorite = Datos_Favoritos(user_Id=body['user_Id'], Personajes=body['Personajes'])
+    db.session.add(new_favorite)
+    db.session.commit()
+    response_body = {
+        "msg": "A favorite person has been added to the user"
+    }
+    return jsonify(response_body), 200
 
 
 # this only runs if `$ python src/app.py` is executed

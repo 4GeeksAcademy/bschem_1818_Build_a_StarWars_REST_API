@@ -54,7 +54,7 @@ class Usuario(db.Model):
     Apellido = db.Column(db.String(250), nullable=False)
     Correo = db.Column(db.String(250), nullable=False)
     Password = db.Column(db.String(250), nullable=False)
-    # planetas_favoritos = db.relationship('Datos_Favoritos', backref='usuario_planeta', lazy=True)
+    planetas_favoritos = db.relationship('Datos_Favoritos', backref='usuario_planeta', lazy=True)
     # personajes_favoritos = db.relationship('Datos_Favoritos', backref='usuario_personaje', lazy=True)
 
 
