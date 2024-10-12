@@ -36,14 +36,12 @@ def handle_invalid_usage(error):
 def sitemap():
     return generate_sitemap(app)
 
-
 @app.route('/personajes', methods=['GET'])
 def Get_Personajes():
     all_Personajes= Personajes.query.all()
     print(all_Personajes)
     results = list(map(lambda Gender : Gender.serialize(), all_Personajes))
     return jsonify(results), 200
-
 
 @app.route('/personajes/<int:personajes_id>', methods=['GET'])
 def Get_Personajes_id(personajes_id):
@@ -81,6 +79,15 @@ def Get_usuario():
     print(all_usuario)
     results_usuario = list(map(lambda Nombre : Nombre.serialize() ,all_usuario))
     return jsonify(results_usuario), 200
+
+@app.route('/favorite/planet', methods=['POST'])
+def Post_planet():
+    planeta= Planetas.
+    all_Planetas = Planetas.query.all()
+    print(all_Planetas)
+    results = list(map(lambda Rotation_Period : Rotation_Period.serialize() ,all_Planetas))
+    return jsonify(results), 200
+
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
